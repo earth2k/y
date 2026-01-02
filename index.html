@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1 Year Anniversary 💙</title>
+
+<style>
+:root{
+  --bg1:#eef4ff;
+  --bg2:#dbe8ff;
+  --bg3:#e3dcff;
+  --deep:#4f5b82;
+}
+*{box-sizing:border-box;font-family:"Segoe UI",system-ui,sans-serif;}
+body{
+  margin:0;min-height:100vh;
+  background:linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg3));
+  overflow:hidden;
+}
+
+/* ===============================
+   GATE
+================================ */
+.gate{
+  position:fixed;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#9fc4ff,#b19cff);
+  z-index:100;
+  opacity:0;pointer-events:none;
+  transition:.8s ease;
+}
+.gate.show{opacity:1;pointer-events:auto;}
+
+.gate-card{
+  width:340px;
+  min-height:520px; /* ความสูงเดิมสำหรับหน้ารหัสและอื่นๆ */
+  background:rgba(255,255,255,.25);
+  backdrop-filter:blur(28px);
+  padding:40px 30px;
+  border-radius:50px;
+  text-align:center;
+  color:#fff;
+  box-shadow:0 40px 120px rgba(0,0,0,.25);
+}
+
+.gate-card button{
+  margin-top:24px;
+  padding:16px 0;
+  width:100%;
+  border:none;
+  border-radius:40px;
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* ===============================
+   หน้าใส่รหัส
+================================ */
+#passDisplay{
+  margin:16px 0;font-size:26px;letter-spacing:6px;
+}
+.keypad{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+.keypad button{
+  padding:18px 0;font-size:20px;border:none;border-radius:16px;background:rgba(255,255,255,.85);
+}
+.keypad button:active{transform:scale(.95);}
+
+/* ===============================
+   เอฟเฟกต์แสงเรือง
+================================ */
+.glow{
+  position:fixed;width:520px;height:520px;
+  background:radial-gradient(circle,rgba(160,190,255,.65),transparent 70%);
+  filter:blur(90px);
+  animation:move 26s infinite alternate ease-in-out;
+  z-index:0;
+}
+.g1{top:-220px;left:-200px;}
+.g2{bottom:-240px;right:-200px;animation-delay:6s;}
+@keyframes move{to{transform:translateY(160px);}}
+
+/* ของลอย */
+.bg{position:fixed;inset:0;pointer-events:none;z-index:1;}
+.float-img{position:absolute;bottom:-80px;width:30px;height:30px;border-radius:50%;object-fit:cover;opacity:.85;animation:rise linear forwards;}
+.floating{position:absolute;bottom:-60px;font-size:18px;opacity:.7;animation:rise linear forwards;}
+@keyframes rise{from{transform:translateY(0) scale(.9);opacity:0;}20%{opacity:1;}to{transform:translateY(-120vh) scale(1.15);opacity:0;}}
+
+/* หน้า Main */
+.main{
+  position:relative;z-index:10;min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:1s ease;
+}
+.main.show{opacity:1;}
+.card{
+  max-width:460px;background:rgba(235,245,255,.9);
+  border-radius:54px;padding:52px 36px;text-align:center;
+}
+.photo-wrap{width:200px;height:200px;margin:0 auto 28px;}
+.photo{width:100%;height:100%;border-radius:50%;overflow:hidden;border:7px solid #fff;}
+.photo img{width:100%;height:100%;object-fit:cover;}
+h2{font-size:32px;color:var(--deep);}
+.names{font-size:19px;color:#6a78a0;}
+.badge{margin-top:16px;padding:12px 28px;border-radius:30px;background:linear-gradient(135deg,#9fc4ff,#b19cff);color:#fff;}
+#loveTime{margin-top:18px;font-size:14px;color:#5a6a8f;}
+.message{margin-top:22px;padding:18px 20px;border-radius:20px;background:#f1f6ff;color:#4f5f88;}
+@media (min-width:768px){.gate-card{width:380px;}.card{max-width:520px;}}
+
+/* ===============================
+   ปรับความสูงเฉพาะหน้าเปิดสิ
+================================ */
+#openPage .gate-card {
+  min-height:360px; /* ลดจาก 520px → 360px */
+}
+</style>
+</head>
+
+<body>
+<audio id="beep"><source src="beep.mp3"></audio>
+
+<!-- หน้าเปิดสิ -->
+<div id="openPage" class="gate show">
+  <div class="gate-card">
+    <h1>สำหรับน้องโอปอนะจ๊ะ 💙</h1>
+    <button onclick="goPassword()">✨ เปิดสิ</button>
+  </div>
+</div>
+
+<!-- หน้าใส่รหัส -->
+<div id="passwordPage" class="gate">
+  <div class="gate-card">
+    <h2>ใส่รหัสลับ 💙</h2>
+    <div id="passDisplay">○ ○ ○ ○ ○ ○</div>
+    <div class="keypad">
+      <button onclick="addNum('1')">1</button>
+      <button onclick="addNum('2')">2</button>
+      <button onclick="addNum('3')">3</button>
+      <button onclick="addNum('4')">4</button>
+      <button onclick="addNum('5')">5</button>
+      <button onclick="addNum('6')">6</button>
+      <button onclick="addNum('7')">7</button>
+      <button onclick="addNum('8')">8</button>
+      <button onclick="addNum('9')">9</button>
+      <button onclick="delNum()">⌫</button>
+      <button onclick="addNum('0')">0</button>
+      <button onclick="checkPass()">✔</button>
+    </div>
+    <p id="error" style="display:none;">หมดสิทธิ์แล้วนะ 💔</p>
+  </div>
+</div>
+
+<div class="glow g1"></div>
+<div class="glow g2"></div>
+<div class="bg" id="bg"></div>
+
+<div class="main" id="main">
+  <div class="card">
+    <div class="photo-wrap"><div class="photo"><img src="main.jpg"></div></div>
+    <h2>Happy Anniversary</h2>
+    <div class="names">เอิร์ท 🤍 น้องโอปอ</div>
+    <div class="badge">1Y • 08/02/25</div>
+    <div id="loveTime"></div>
+    <div class="message">เขียนอะไรดีน้าา 💙</div>
+  </div>
+</div>
+
+<script>
+const PASSWORD="080225";
+let inputPass="",tried=false;
+function playBeep(){beep.currentTime=0;beep.play();}
+function goPassword(){playBeep();openPage.classList.remove("show");passwordPage.classList.add("show");}
+function addNum(n){if(tried||inputPass.length>=6)return;playBeep();inputPass+=n;updateDots();}
+function delNum(){if(tried)return;playBeep();inputPass=inputPass.slice(0,-1);updateDots();}
+function updateDots(){let d="";for(let i=0;i<inputPass.length;i++)d+="● ";for(let i=inputPass.length;i<6;i++)d+="○ ";passDisplay.innerText=d;}
+function checkPass(){if(tried)return;playBeep();tried=true;if(inputPass===PASSWORD){passwordPage.classList.remove("show");main.classList.add("show");}else{error.style.display="block";document.querySelector(".keypad").style.pointerEvents="none";document.querySelector(".keypad").style.opacity=.4;}}
+
+function updateLoveTime(){
+  const start=new Date(2025,1,8,7,40,0);
+  const now=new Date();
+  let d=Math.floor((now-start)/1000);
+  const day=Math.floor(d/86400);d%=86400;
+  const h=Math.floor(d/3600);d%=3600;
+  const m=Math.floor(d/60);
+  const s=d%60;
+  loveTime.innerHTML=`${day} วัน ${h} ชม ${m} นาที ${s} วิ`;
+}
+setInterval(updateLoveTime,1000);updateLoveTime();
+
+const imgs=["pic1.jpg","pic2.jpg","pic3.jpg","pic4.jpg","pic5.jpg","pic6.jpg"];
+setInterval(()=>{
+  const i=document.createElement("img");
+  i.src=imgs[Math.floor(Math.random()*imgs.length)];
+  i.className="float-img";
+  i.style.left=Math.random()*100+"vw";
+  i.style.animationDuration=(12+Math.random()*6)+"s";
+  bg.appendChild(i);
+  setTimeout(()=>i.remove(),22000);
+},400);
+
+const icons=["🤍","💙","✨","⭐","🌸","🌼"];
+setInterval(()=>{
+  const f=document.createElement("div");
+  f.className="floating";
+  f.innerText=icons[Math.floor(Math.random()*icons.length)];
+  f.style.left=Math.random()*100+"vw";
+  f.style.animationDuration=(11+Math.random()*6)+"s";
+  bg.appendChild(f);
+  setTimeout(()=>f.remove(),20000);
+},650);
+</script>
+
+</body>
+</html>
